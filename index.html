@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SPK JurusanKu - Temukan Jurusan Terbaik dengan Profile Matching</title>
+  <meta name="description" content="Sistem Pendukung Keputusan (SPK) berbasis metode Profile Matching untuk merekomendasikan program studi kuliah terbaik sesuai profil akademik dan bakat minat Anda." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script>
+    (function() {
+      const t = localStorage.getItem('theme');
+      if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav" class="nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="SPK JurusanKu home">
+        <span class="logo-mark">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+            <path d="M14 2L26 8V20L14 26L2 20V8L14 2Z" stroke="url(#lg1)" stroke-width="1.5" fill="none"/>
+            <circle cx="14" cy="14" r="4" fill="url(#lg2)"/>
+            <defs>
+              <linearGradient id="lg1" x1="2" y1="2" x2="26" y2="26" gradientUnits="userSpaceOnUse">
+                <stop stop-color="var(--text-primary)"/><stop offset="1" stop-color="var(--accent-sapphire)"/>
+              </linearGradient>
+              <linearGradient id="lg2" x1="10" y1="10" x2="18" y2="18" gradientUnits="userSpaceOnUse">
+                <stop stop-color="var(--accent-sapphire)"/><stop offset="1" stop-color="var(--text-primary)"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span class="logo-text">JurusanKu<span class="logo-spk">SPK</span></span>
+      </a>
+        <div class="nav-links">
+          <a href="#fitur" class="nav-link">Fitur</a>
+          <a href="#cara-kerja" class="nav-link">Cara Kerja</a>
+          <a href="#matematika" class="nav-link">Metode SPK</a>
+        </div>
+        <div style="margin-left: auto; display: flex; align-items: center; gap: 16px;">
+          <button id="theme-toggle" class="theme-toggle" aria-label="Ubah mode warna" style="background:none; border:none; color:var(--text-primary); cursor:pointer; padding: 0;">
+            <svg class="theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            <svg class="theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="19.78"></line><line x1="18.36" y1="5.64" x2="19.78" y2="5.64"></line></svg>
+          </button>
+          <div class="nav-cta" id="nav-cta-desktop" style="margin-left: 0;">
+            <a href="auth.html" class="btn-ghost" id="btn-nav-login">Login</a>
+            <a href="auth.html" class="btn-primary" id="btn-nav-start">Mulai Asesmen</a>
+          </div>
+        </div>
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span>
+        </button>
+    </div>
+    <div class="nav-mobile" id="nav-mobile" aria-hidden="true">
+      <a href="#cara-kerja" class="nav-mobile-link">Cara Kerja</a>
+      <a href="#fitur" class="nav-mobile-link">Fitur</a>
+      <a href="#matematika" class="nav-mobile-link">Metode</a>
+      <a href="app.html" class="btn-primary w-full text-center">Mulai Asesmen</a>
+    </div>
+  </nav>
+
+  <!-- HERO — Asymmetric split: left content / right card visual -->
+  <section class="hero" aria-labelledby="hero-headline">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-grid"></div>
+    </div>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <h1 id="hero-headline" class="hero-h1">
+          Jurusan yang Tepat,<br/>
+          <span class="hero-accent">Bukan Tebakan.</span>
+        </h1>
+        <p class="hero-sub">
+          SPK berbasis Profile Matching yang mencocokkan profil akademikmu dengan 57 program studi Saintek dan Soshum secara transparan dan terukur.
+        </p>
+        <div class="hero-ctas">
+          <a href="app.html" class="btn-primary btn-lg" id="hero-cta">Mulai Asesmen</a>
+          <a href="#cara-kerja" class="btn-ghost btn-lg">Cara Kerja</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-card-stack">
+          <div class="rank-card rank-card-bg rank-3">
+            <div class="rank-num">03</div>
+            <div class="rank-info">
+              <div class="rank-title">S1 Sistem Informasi</div>
+              <div class="rank-score">4.72<span class="rank-score-unit">/5.00</span></div>
+            </div>
+            <div class="rank-bar"><div class="rank-bar-fill" style="width:94.4%"></div></div>
+          </div>
+          <div class="rank-card rank-card-bg rank-2">
+            <div class="rank-num">02</div>
+            <div class="rank-info">
+              <div class="rank-title">S1 Teknik Elektro</div>
+              <div class="rank-score">4.85<span class="rank-score-unit">/5.00</span></div>
+            </div>
+            <div class="rank-bar"><div class="rank-bar-fill" style="width:97%"></div></div>
+          </div>
+          <div class="rank-card rank-card-top rank-1">
+            <div class="rank-crown">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm0 3h14v2H5v-2z"/></svg>
+            </div>
+            <div class="rank-num rank-1-num">#1</div>
+            <div class="rank-info">
+              <div class="rank-title rank-1-title">S1 Teknik Informatika</div>
+              <div class="rank-score rank-1-score">4.95<span class="rank-score-unit">/5.00</span></div>
+            </div>
+            <div class="rank-bar"><div class="rank-bar-fill rank-1-fill" style="width:99%"></div></div>
+            <div class="rank-reason">Sangat cocok &middot; Core Factor terpenuhi sempurna</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAT BAND — Moved out of hero as a standalone strip -->
+  <div class="stat-band" aria-label="Statistik sistem">
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num" data-count="57">0</div>
+        <div class="stat-label">Program Studi</div>
+      </div>
+      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat-item">
+        <div class="stat-num" data-count="24">0</div>
+        <div class="stat-label">Pertanyaan Psikometri</div>
+      </div>
+      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat-item">
+        <div class="stat-num" data-count="5">0</div>
+        <div class="stat-label">Langkah Kalkulasi</div>
+      </div>
+      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Transparan &amp; Teraudit</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARA KERJA -->
+  <section id="cara-kerja" class="section-how" aria-labelledby="how-headline">
+    <div class="container">
+      <h2 id="how-headline" class="section-h2">Bagaimana Sistemnya Bekerja</h2>
+      <p class="section-sub">Lima tahap terstruktur dari asesmen hingga rekomendasi berkas laporan resmi.</p>
+      <div class="steps-track">
+        <div class="step-item reveal-item">
+          <div class="step-num-wrap">
+            <div class="step-num">01</div>
+            <div class="step-connector" aria-hidden="true"></div>
+          </div>
+          <div class="step-body">
+            <h3 class="step-title">Pilih Jalur Sekolah</h3>
+            <p class="step-desc">Sistem menyesuaikan form input secara dinamis berdasarkan rumpun asal: SMA IPA, SMA IPS, SMK Teknik, atau SMK Bisnis.</p>
+          </div>
+        </div>
+        <div class="step-item reveal-item">
+          <div class="step-num-wrap">
+            <div class="step-num">02</div>
+            <div class="step-connector" aria-hidden="true"></div>
+          </div>
+          <div class="step-body">
+            <h3 class="step-title">Input Nilai Rapor</h3>
+            <p class="step-desc">Masukkan nilai asli (0-100). Auto-mapping otomatis mengkonversi ke skala 1-5 untuk presisi kalkulasi Profile Matching.</p>
+          </div>
+        </div>
+        <div class="step-item reveal-item">
+          <div class="step-num-wrap">
+            <div class="step-num">03</div>
+            <div class="step-connector" aria-hidden="true"></div>
+          </div>
+          <div class="step-body">
+            <h3 class="step-title">Tes Psikometri 24 Pertanyaan</h3>
+            <p class="step-desc">Jawab 24 butir pertanyaan Skala Likert yang mengukur 3 dimensi bakat: Logika, Kreativitas, dan Komunikasi.</p>
+          </div>
+        </div>
+        <div class="step-item reveal-item">
+          <div class="step-num-wrap">
+            <div class="step-num">04</div>
+            <div class="step-connector" aria-hidden="true"></div>
+          </div>
+          <div class="step-body">
+            <h3 class="step-title">Kalkulasi Profile Matching</h3>
+            <p class="step-desc">Engine menghitung GAP, pembobotan, Core Factor, Secondary Factor, dan Total Nilai Akhir terhadap 57 jurusan secara real-time.</p>
+          </div>
+        </div>
+        <div class="step-item reveal-item">
+          <div class="step-num-wrap">
+            <div class="step-num">05</div>
+          </div>
+          <div class="step-body">
+            <h3 class="step-title">Unduh Laporan Resmi</h3>
+            <p class="step-desc">Ekspor Surat Keterangan Rekomendasi (cetak PDF) atau unduh matriks kalkulasi lengkap dalam format Excel (.xlsx).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FITUR -->
+  <section id="fitur" class="section-features" aria-labelledby="features-headline">
+    <div class="container">
+      <h2 id="features-headline" class="section-h2">Fitur Unggulan Sistem</h2>
+      <div class="bento-grid">
+        <div class="bento-cell bento-large reveal-item" id="bento-audit">
+          <div class="bento-icon-wrap teal">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+          </div>
+          <h3 class="bento-title">Audit Trail 4-Tab Transparan</h3>
+          <p class="bento-desc">Setiap langkah perhitungan matematis ditampilkan secara terbuka dan bisa diverifikasi oleh dosen penguji.</p>
+          <div class="audit-preview" aria-hidden="true">
+            <div class="audit-tab active-tab">GAP Matrix</div>
+            <div class="audit-tab">Bobot Nilai</div>
+            <div class="audit-tab">CF &amp; SF</div>
+            <div class="audit-tab">Ranking</div>
+          </div>
+        </div>
+        <div class="bento-cell reveal-item" id="bento-automap">
+          <div class="bento-icon-wrap violet">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><path d="M14 17h6M17 14v6"/></svg>
+          </div>
+          <h3 class="bento-title">Auto-Mapping Nilai Rapor</h3>
+          <p class="bento-desc">Konversi otomatis nilai angka (0-100) ke skala diskrit (1-5) tanpa campur tangan manual.</p>
+        </div>
+        <div class="bento-cell bento-image reveal-item" id="bento-track">
+          <div class="bento-track-visual" aria-hidden="true">
+            <div class="track-chip active-chip">SMA IPA</div>
+            <div class="track-chip">SMA IPS</div>
+            <div class="track-chip">SMK Teknik</div>
+            <div class="track-chip">SMK Bisnis</div>
+          </div>
+          <h3 class="bento-title">4 Jalur Sekolah Asal</h3>
+          <p class="bento-desc">Form input menyesuaikan mata pelajaran secara dinamis sesuai rumpun sekolah kamu.</p>
+        </div>
+        <div class="bento-cell bento-prodi-cell reveal-item" id="bento-prodi">
+          <div class="prodi-count">
+            <span class="prodi-num">57</span>
+            <span class="prodi-label">Prodi</span>
+          </div>
+          <p class="bento-desc">S1 &amp; D3 Saintek dan Soshum dari universitas-universitas unggulan se-Indonesia.</p>
+        </div>
+        <div class="bento-cell reveal-item" id="bento-export">
+          <div class="bento-icon-wrap teal">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          </div>
+          <h3 class="bento-title">Ekspor Laporan</h3>
+          <p class="bento-desc">Cetak Surat Rekomendasi atau unduh matriks Excel (.xlsx) menggunakan SheetJS untuk keperluan akademis.</p>
+        </div>
+        <div class="bento-cell bento-wide reveal-item" id="bento-reason">
+          <div class="bento-icon-wrap violet">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+          </div>
+          <h3 class="bento-title">Reasoning Engine Otomatis</h3>
+          <p class="bento-desc">Sistem merangkai alasan kontekstual mengapa suatu jurusan menjadi rekomendasi utama berdasarkan deteksi Core Factor yang terpenuhi secara real-time.</p>
+          <div class="reason-preview" aria-hidden="true">
+            <span class="reason-tag">Logika Tinggi</span>
+            <span class="reason-tag">Matematika Unggul</span>
+            <span class="reason-tag">Core Factor OK</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MATEMATIKA -->
+  <section id="matematika" class="section-math" aria-labelledby="math-headline">
+    <div class="container">
+      <div class="math-split">
+        <div class="math-left reveal-item">
+          <div class="math-eyebrow">Profile Matching Algorithm</div>
+          <h2 id="math-headline" class="section-h2">5 Langkah Algoritma<br/>Profile Matching</h2>
+          <p class="section-sub">Tidak ada kotak hitam. Setiap kalkulasi terbuka, terstruktur, dan dapat dipertanggungjawabkan secara akademis.</p>
+          <div class="math-steps">
+            <div class="math-step"><div class="math-step-num">1</div><div class="math-step-body"><h4>Vektor Profil Siswa</h4><p>Input nilai rapor dan skor kuesioner dikemas menjadi vektor <code>[C1..C6]</code></p></div></div>
+            <div class="math-step"><div class="math-step-num">2</div><div class="math-step-body"><h4>Matriks GAP</h4><p>GAP = Nilai Siswa - Nilai Target Prodi, dihitung per kriteria per alternatif.</p></div></div>
+            <div class="math-step"><div class="math-step-num">3</div><div class="math-step-body"><h4>Pembobotan GAP</h4><p>Setiap nilai GAP dikonversi ke bobot standar: GAP=0 menjadi 5.0, GAP=+1 menjadi 4.5, dst.</p></div></div>
+            <div class="math-step"><div class="math-step-num">4</div><div class="math-step-body"><h4>Core Factor (60%) + Secondary Factor (40%)</h4><p>N = (0.6 x NCF) + (0.4 x NSF) per aspek akademik dan bakat.</p></div></div>
+            <div class="math-step active-math-step"><div class="math-step-num teal-num">5</div><div class="math-step-body"><h4>Total Nilai Akhir &amp; Ranking</h4><p>Total = (50% x N_Akademik) + (50% x N_Bakat). Diurutkan secara descending.</p></div></div>
+          </div>
+        </div>
+        <div class="math-right reveal-item">
+          <div class="formula-card">
+            <div class="formula-card-header">
+              <span class="mono-label">SIMULASI STUDI KASUS</span>
+              <span class="student-name-badge">Zacky &middot; SMA IPA</span>
+            </div>
+            <div class="profile-vector">
+              <div class="vector-label">Vektor Profil Siswa P =</div>
+              <div class="vector-chips">
+                <div class="v-chip">C1<br/><strong>5</strong><br/><span class="v-sub">MTK</span></div>
+                <div class="v-chip">C2<br/><strong>4</strong><br/><span class="v-sub">ING</span></div>
+                <div class="v-chip">C3<br/><strong>4</strong><br/><span class="v-sub">IND</span></div>
+                <div class="v-chip teal-chip">C4<br/><strong>5</strong><br/><span class="v-sub">LOG</span></div>
+                <div class="v-chip teal-chip">C5<br/><strong>4</strong><br/><span class="v-sub">KRE</span></div>
+                <div class="v-chip teal-chip">C6<br/><strong>3</strong><br/><span class="v-sub">VER</span></div>
+              </div>
+            </div>
+            <div class="gap-table-wrap">
+              <div class="gap-table-label">Matriks GAP vs S1 Teknik Informatika</div>
+              <table class="gap-table" aria-label="Tabel GAP">
+                <thead><tr><th>Kriteria</th><th>Siswa</th><th>Target</th><th>GAP</th><th>Bobot</th><th>Jenis</th></tr></thead>
+                <tbody>
+                  <tr><td>C1 MTK</td><td>5</td><td>5</td><td class="gap-zero">0</td><td class="bobot-val">5.0</td><td><span class="badge-cf">CF</span></td></tr>
+                  <tr><td>C2 ING</td><td>4</td><td>4</td><td class="gap-zero">0</td><td class="bobot-val">5.0</td><td><span class="badge-sf">SF</span></td></tr>
+                  <tr><td>C3 IND</td><td>4</td><td>3</td><td class="gap-pos">+1</td><td class="bobot-val">4.5</td><td><span class="badge-sf">SF</span></td></tr>
+                  <tr><td>C4 LOG</td><td>5</td><td>5</td><td class="gap-zero">0</td><td class="bobot-val">5.0</td><td><span class="badge-cf">CF</span></td></tr>
+                  <tr><td>C5 KRE</td><td>4</td><td>4</td><td class="gap-zero">0</td><td class="bobot-val">5.0</td><td><span class="badge-sf">SF</span></td></tr>
+                  <tr><td>C6 VER</td><td>3</td><td>3</td><td class="gap-zero">0</td><td class="bobot-val">5.0</td><td><span class="badge-sf">SF</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="formula-result-row">
+              <div class="formula-block">
+                <div class="formula-label">N Akademik</div>
+                <div class="formula-eq">(0.6 x 5.00) + (0.4 x 4.75)<br/>= 3.0 + 1.9 = <strong>4.90</strong></div>
+              </div>
+              <div class="formula-block">
+                <div class="formula-label">N Bakat</div>
+                <div class="formula-eq">(0.6 x 5.00) + (0.4 x 5.00)<br/>= 3.0 + 2.0 = <strong>5.00</strong></div>
+              </div>
+            </div>
+            <div class="final-score-box">
+              <div class="final-score-label">Total Nilai Akhir A1</div>
+              <div class="final-score-eq">(0.5 x 4.90) + (0.5 x 5.00)</div>
+              <div class="final-score-val">4.9500</div>
+              <div class="final-score-rank">Ranking #1 - S1 Teknik Informatika</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA — Full-bleed horizontal strip (not centered box) -->
+  <section class="section-cta" aria-labelledby="cta-headline">
+    <div class="cta-strip">
+      <div class="cta-strip-left reveal-item">
+        <h2 id="cta-headline" class="cta-h2">Siap temukan jurusan terbaikmu?</h2>
+        <p class="cta-sub">Asesmen lengkap kurang dari 5 menit. Hasil transparan, bisa dicetak, dan bisa diunduh.</p>
+      </div>
+      <div class="cta-strip-right reveal-item">
+        <a href="app.html" class="btn-primary btn-lg btn-glow" id="cta-main-btn">Mulai Asesmen</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-text">JurusanKu<span class="logo-spk">SPK</span></span>
+        <p class="footer-tagline">Sistem Pendukung Keputusan Rekomendasi Jurusan berbasis Profile Matching.</p>
+      </div>
+      <div class="footer-meta">
+        <span class="footer-method">Metode: Profile Matching</span>
+        <span class="footer-divider" aria-hidden="true">&middot;</span>
+        <span class="footer-stack">UAS SPK 2025/2026</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <!-- PROFILE MODAL -->
+  <div id="profile-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="max-width: 600px;">
+      <button class="modal-close" onclick="closeProfileModal()" aria-label="Close">&times;</button>
+      <h2 class="modal-title">Profil Saya</h2>
+      <div id="profile-info" style="margin-bottom: 24px;">
+        <p class="modal-subtitle" style="margin-bottom: 8px;"><strong>Nama:</strong> <span id="prof-name"></span></p>
+        <p class="modal-subtitle"><strong>Jalur Sekolah:</strong> <span id="prof-track"></span></p>
+      </div>
+      
+      <h3 style="font-size: 1.1rem; border-bottom: 1px solid var(--surface-border); padding-bottom: 8px; margin-bottom: 16px;">Histori Asesmen</h3>
+      <div id="history-list" style="max-height: 300px; overflow-y: auto;">
+        <!-- History items injected here -->
+      </div>
+      
+      <button onclick="handleLogout()" class="btn-ghost w-full" style="margin-top: 24px; color: #ef4444; border-color: rgba(239, 68, 68, 0.2);">Logout</button>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="js/auth.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
