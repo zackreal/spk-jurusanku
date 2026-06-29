@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asesmen SPK JurusanKu - Profil Matching Jurusan Kuliah</title>
+  <meta name="description" content="Lakukan asesmen profil akademik dan bakat minat untuk mendapatkan rekomendasi program studi berbasis Profile Matching." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/app.css" />
+  <script>
+    (function() {
+      const t = localStorage.getItem('theme');
+      if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body class="app-layout">
+
+  <!-- NAV -->
+  <nav id="main-nav" class="nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="Kembali ke beranda">
+        <span class="logo-mark">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <path d="M14 2L26 8V20L14 26L2 20V8L14 2Z" stroke="url(#nlg1)" stroke-width="1.5" fill="none"/>
+            <circle cx="14" cy="14" r="4" fill="url(#nlg2)"/>
+            <defs>
+              <linearGradient id="nlg1" x1="2" y1="2" x2="26" y2="26" gradientUnits="userSpaceOnUse"><stop stop-color="#3b82f6"/><stop offset="1" stop-color="#6366f1"/></linearGradient>
+              <linearGradient id="nlg2" x1="10" y1="10" x2="18" y2="18" gradientUnits="userSpaceOnUse"><stop stop-color="#3b82f6"/><stop offset="1" stop-color="#6366f1"/></linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span class="logo-text">JurusanKu<span class="logo-spk">SPK</span></span>
+      </a>
+      <div style="margin-left:auto; display:flex; align-items:center; gap:12px;">
+        <span id="nav-progress-label" style="font-size:0.82rem; color:var(--text-muted); font-family:var(--font-mono);"></span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Ubah mode warna" style="margin-left: 0;">
+          <svg class="theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="19.78"></line><line x1="18.36" y1="5.64" x2="19.78" y2="5.64"></line></svg>
+        </button>
+        <a href="index.html" class="btn-ghost" style="padding:8px 16px; font-size:0.85rem;">Beranda</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- STEPPER -->
+  <div class="stepper" role="navigation" aria-label="Progress asesmen">
+    <div class="stepper-inner">
+      <div class="stepper-step active" id="step-indicator-1" data-step="1">
+        <div class="step-circle">1</div>
+        <div class="step-label">Profil & Jalur</div>
+      </div>
+      <div class="stepper-step" id="step-indicator-2" data-step="2">
+        <div class="step-circle">2</div>
+        <div class="step-label">Nilai Rapor</div>
+      </div>
+      <div class="stepper-step" id="step-indicator-3" data-step="3">
+        <div class="step-circle">3</div>
+        <div class="step-label">Psikometri</div>
+      </div>
+      <div class="stepper-step" id="step-indicator-4" data-step="4">
+        <div class="step-circle">4</div>
+        <div class="step-label">Hasil &amp; Audit</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APP CONTENT -->
+  <main class="app-content" id="app-content">
+
+    <!-- ─── STEP 1: PROFIL & JALUR ─── -->
+    <div class="view-panel active" id="panel-1" role="region" aria-labelledby="p1-title">
+      <div class="panel-header">
+        <div class="panel-badge">Langkah 1 dari 4</div>
+        <h1 class="panel-h1" id="p1-title">Konfirmasi Identitas</h1>
+        <p class="panel-sub">Silakan lengkapi data sekolah asalmu untuk melanjutkan ke tahap pengisian rapor.</p>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">Identitas Peserta</div>
+        
+        <!-- Read-only Identity Card -->
+        <div class="identity-card" style="background: var(--bg-card); border: 1px solid var(--surface-border); padding: 16px; border-radius: 12px; margin-bottom: 24px; display: flex; align-items: center; gap: 16px;">
+          <div class="avatar-placeholder" id="auth-avatar" style="width: 48px; height: 48px; background: rgba(37,99,235,0.1); color: var(--accent-sapphire); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700;">?</div>
+          <div>
+            <div id="auth-name" style="font-weight: 700; color: var(--text-primary); font-size: 1.1rem; margin-bottom: 4px;">Memuat Nama...</div>
+            <div id="auth-track" style="font-size: 0.85rem; color: var(--text-secondary); background: var(--bg-elevated); padding: 2px 8px; border-radius: 4px; display: inline-block; border: 1px solid var(--surface-border);">Memuat Jalur...</div>
+          </div>
+        </div>
+
+        <div class="form-section-title" style="margin-top: 32px;">Data Sekolah</div>
+        <div class="form-grid">
+          <div class="form-field form-field-full">
+            <label class="form-label" for="student-school">Nama Sekolah Asal <span class="required">*</span></label>
+            <input type="text" id="student-school" class="form-input" placeholder="Contoh: SMA Negeri 1 Jakarta" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="school-start">Tahun Masuk <span class="required">*</span></label>
+            <input type="number" id="school-start" class="form-input" placeholder="Contoh: 2021" min="2000" max="2099" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="school-end">Tahun Lulus <span class="required">*</span></label>
+            <input type="number" id="school-end" class="form-input" placeholder="Contoh: 2024" min="2000" max="2099" required />
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-nav">
+        <span></span>
+        <button class="btn-next" id="btn-1-next" type="button">
+          Lanjut ke Input Rapor
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ─── STEP 2: NILAI RAPOR ─── -->
+    <div class="view-panel" id="panel-2" role="region" aria-labelledby="p2-title">
+      <div class="panel-header">
+        <div class="panel-badge">Langkah 2 dari 4</div>
+        <h1 class="panel-h1" id="p2-title">Input Nilai Rapor</h1>
+        <p class="panel-sub" id="p2-sub">Masukkan nilai angka asli (0-100) dari rapormu. Sistem akan otomatis mengkonversi ke skala 1-5.</p>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">Nilai Mata Pelajaran - <span id="track-label-display"></span></div>
+        <div class="form-grid subjects-container" id="subjects-container">
+
+          <!-- SMA IPA (6 mapel) -->
+          <div class="form-field" data-tracks="sma-ipa">
+            <label class="form-label">Matematika (Umum &amp; Peminatan) <span class="required">*</span> <span class="average-badge" id="avg-m-mtk">Rata-rata: 0</span></label>
+            <div class="multi-input-row">
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-mtk" placeholder="Kls 10" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-mtk" placeholder="Kls 11" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-mtk" placeholder="Kls 12" min="0" max="100" /></div>
+            </div>
+            <input type="hidden" id="m-mtk" data-criteria="C1" class="subject-input" />
+            <span class="map-preview" id="map-m-mtk"></span>
+          </div>
+          <div class="form-field" data-tracks="sma-ipa sma-ips smk-teknik smk-bisnis">
+            <label class="form-label">Bahasa Inggris <span class="required">*</span> <span class="average-badge" id="avg-m-ing">Rata-rata: 0</span></label>
+            <div class="multi-input-row">
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-ing" placeholder="Kls 10" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-ing" placeholder="Kls 11" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-ing" placeholder="Kls 12" min="0" max="100" /></div>
+            </div>
+            <input type="hidden" id="m-ing" data-criteria="C2" class="subject-input" />
+            <span class="map-preview" id="map-m-ing"></span>
+          </div>
+          <div class="form-field" data-tracks="sma-ipa sma-ips smk-teknik smk-bisnis">
+            <label class="form-label">Bahasa Indonesia <span class="required">*</span> <span class="average-badge" id="avg-m-ind">Rata-rata: 0</span></label>
+            <div class="multi-input-row">
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-ind" placeholder="Kls 10" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-ind" placeholder="Kls 11" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-ind" placeholder="Kls 12" min="0" max="100" /></div>
+            </div>
+            <input type="hidden" id="m-ind" data-criteria="C3" class="subject-input" />
+            <span class="map-preview" id="map-m-ind"></span>
+          </div>
+          <div class="form-field" data-tracks="sma-ipa">
+            <label class="form-label">Fisika <span class="required">*</span> <span class="average-badge" id="avg-m-fisika">Rata-rata: 0</span></label>
+            <div class="multi-input-row">
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-fisika" placeholder="Kls 10" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-fisika" placeholder="Kls 11" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-fisika" placeholder="Kls 12" min="0" max="100" /></div>
+            </div>
+            <input type="hidden" id="m-fisika"  class="subject-input" />
+            <span class="map-preview" id="map-m-fisika"></span>
+          </div>
+          <div class="form-field" data-tracks="sma-ipa">
+            <label class="form-label">Kimia <span class="required">*</span> <span class="average-badge" id="avg-m-kimia">Rata-rata: 0</span></label>
+            <div class="multi-input-row">
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-kimia" placeholder="Kls 10" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-kimia" placeholder="Kls 11" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-kimia" placeholder="Kls 12" min="0" max="100" /></div>
+            </div>
+            <input type="hidden" id="m-kimia"  class="subject-input" />
+            <span class="map-preview" id="map-m-kimia"></span>
+          </div>
+          <div class="form-field" data-tracks="sma-ipa">
+            <label class="form-label">Biologi <span class="required">*</span> <span class="average-badge" id="avg-m-biologi">Rata-rata: 0</span></label>
+            <div class="multi-input-row">
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-biologi" placeholder="Kls 10" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-biologi" placeholder="Kls 11" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-biologi" placeholder="Kls 12" min="0" max="100" /></div>
+            </div>
+            <input type="hidden" id="m-biologi"  class="subject-input" />
+            <span class="map-preview" id="map-m-biologi"></span>
+          </div>
+
+          <!-- SMA IPS (6 mapel) -->
+          <div class="form-field" data-tracks="sma-ips">
+            <label class="form-label">Matematika <span class="required">*</span> <span class="average-badge" id="avg-m-mtk-ips">Rata-rata: 0</span></label>
+            <div class="multi-input-row">
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-mtk-ips" placeholder="Kls 10" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-mtk-ips" placeholder="Kls 11" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-mtk-ips" placeholder="Kls 12" min="0" max="100" /></div>
+            </div>
+            <input type="hidden" id="m-mtk-ips" data-criteria="C1" class="subject-input" />
+            <span class="map-preview" id="map-m-mtk-ips"></span>
+          </div>
+          <div class="form-field" data-tracks="sma-ips">
+            <label class="form-label">Ekonomi &amp; Akuntansi <span class="required">*</span> <span class="average-badge" id="avg-m-ekonomi">Rata-rata: 0</span></label>
+            <div class="multi-input-row">
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-ekonomi" placeholder="Kls 10" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-ekonomi" placeholder="Kls 11" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-ekonomi" placeholder="Kls 12" min="0" max="100" /></div>
+            </div>
+            <input type="hidden" id="m-ekonomi"  class="subject-input" />
+            <span class="map-preview" id="map-m-ekonomi"></span>
+          </div>
+          <div class="form-field" data-tracks="sma-ips">
+            <label class="form-label">Sosiologi <span class="required">*</span> <span class="average-badge" id="avg-m-sosiologi">Rata-rata: 0</span></label>
+            <div class="multi-input-row">
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-sosiologi" placeholder="Kls 10" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-sosiologi" placeholder="Kls 11" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-sosiologi" placeholder="Kls 12" min="0" max="100" /></div>
+            </div>
+            <input type="hidden" id="m-sosiologi"  class="subject-input" />
+            <span class="map-preview" id="map-m-sosiologi"></span>
+          </div>
+          <div class="form-field" data-tracks="sma-ips">
+            <label class="form-label">Geografi <span class="required">*</span> <span class="average-badge" id="avg-m-geografi">Rata-rata: 0</span></label>
+            <div class="multi-input-row">
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-geografi" placeholder="Kls 10" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-geografi" placeholder="Kls 11" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-geografi" placeholder="Kls 12" min="0" max="100" /></div>
+            </div>
+            <input type="hidden" id="m-geografi"  class="subject-input" />
+            <span class="map-preview" id="map-m-geografi"></span>
+          </div>
+
+          <!-- SMK Teknik (5 mapel) -->
+          <div class="form-field" data-tracks="smk-teknik">
+            <label class="form-label">Matematika Teknik <span class="required">*</span> <span class="average-badge" id="avg-m-mtk-tek">Rata-rata: 0</span></label>
+            <div class="multi-input-row">
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-mtk-tek" placeholder="Kls 10" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-mtk-tek" placeholder="Kls 11" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-mtk-tek" placeholder="Kls 12" min="0" max="100" /></div>
+            </div>
+            <input type="hidden" id="m-mtk-tek" data-criteria="C1" class="subject-input" />
+            <span class="map-preview" id="map-m-mtk-tek"></span>
+          </div>
+          <div class="form-field" data-tracks="smk-teknik">
+            <label class="form-label">Dasar Kejuruan Teknik <span class="required">*</span> <span class="average-badge" id="avg-m-kejuruan">Rata-rata: 0</span></label>
+            <div class="multi-input-row">
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-kejuruan" placeholder="Kls 10" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-kejuruan" placeholder="Kls 11" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-kejuruan" placeholder="Kls 12" min="0" max="100" /></div>
+            </div>
+            <input type="hidden" id="m-kejuruan"  class="subject-input" />
+            <span class="map-preview" id="map-m-kejuruan"></span>
+          </div>
+          <div class="form-field" data-tracks="smk-teknik">
+            <label class="form-label">Kompetensi Digital / Praktikum <span class="required">*</span> <span class="average-badge" id="avg-m-digital">Rata-rata: 0</span></label>
+            <div class="multi-input-row">
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-digital" placeholder="Kls 10" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-digital" placeholder="Kls 11" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-digital" placeholder="Kls 12" min="0" max="100" /></div>
+            </div>
+            <input type="hidden" id="m-digital"  class="subject-input" />
+            <span class="map-preview" id="map-m-digital"></span>
+          </div>
+
+          <!-- SMK Bisnis (5 mapel) -->
+          <div class="form-field" data-tracks="smk-bisnis">
+            <label class="form-label">Matematika Bisnis &amp; Keuangan <span class="required">*</span> <span class="average-badge" id="avg-m-mtk-bisnis">Rata-rata: 0</span></label>
+            <div class="multi-input-row">
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-mtk-bisnis" placeholder="Kls 10" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-mtk-bisnis" placeholder="Kls 11" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-mtk-bisnis" placeholder="Kls 12" min="0" max="100" /></div>
+            </div>
+            <input type="hidden" id="m-mtk-bisnis" data-criteria="C1" class="subject-input" />
+            <span class="map-preview" id="map-m-mtk-bisnis"></span>
+          </div>
+          <div class="form-field" data-tracks="smk-bisnis">
+            <label class="form-label">Dasar Akuntansi &amp; Keuangan <span class="required">*</span> <span class="average-badge" id="avg-m-akuntansi">Rata-rata: 0</span></label>
+            <div class="multi-input-row">
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-akuntansi" placeholder="Kls 10" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-akuntansi" placeholder="Kls 11" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-akuntansi" placeholder="Kls 12" min="0" max="100" /></div>
+            </div>
+            <input type="hidden" id="m-akuntansi"  class="subject-input" />
+            <span class="map-preview" id="map-m-akuntansi"></span>
+          </div>
+          <div class="form-field" data-tracks="smk-bisnis">
+            <label class="form-label">Prinsip Pemasaran &amp; Ekonomi <span class="required">*</span> <span class="average-badge" id="avg-m-pemasaran">Rata-rata: 0</span></label>
+            <div class="multi-input-row">
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-pemasaran" placeholder="Kls 10" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-pemasaran" placeholder="Kls 11" min="0" max="100" /></div>
+              <div class="input-with-unit"><input type="number" class="form-input multi-input" data-subject="m-pemasaran" placeholder="Kls 12" min="0" max="100" /></div>
+            </div>
+            <input type="hidden" id="m-pemasaran"  class="subject-input" />
+            <span class="map-preview" id="map-m-pemasaran"></span>
+          </div>
+
+        </div>
+
+        <div style="margin-top:16px; padding:12px 16px; background:var(--teal-dim); border:1px solid rgba(0,212,170,0.2); border-radius:var(--radius-md);">
+          <p style="font-size:0.82rem; color:var(--text-secondary); line-height:1.6;">
+            <strong style="color:var(--teal);">Auto-Mapping:</strong>
+            Nilai 90-100 = Skala 5 (Sangat Baik) &middot; 80-89 = 4 &middot; 70-79 = 3 &middot; 60-69 = 2 &middot; &lt;60 = 1
+          </p>
+        </div>
+      </div>
+
+      <div class="panel-nav">
+        <button class="btn-back" id="btn-2-back" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Kembali
+        </button>
+        <button class="btn-next" id="btn-2-next" type="button">
+          Lanjut ke Tes Psikometri
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ─── STEP 3: PSIKOMETRI ─── -->
+    <div class="view-panel" id="panel-3" role="region" aria-labelledby="p3-title">
+      <div class="panel-header">
+        <div class="panel-badge">Langkah 3 dari 4</div>
+        <h1 class="panel-h1" id="p3-title">Tes Psikometri Bakat &amp; Minat</h1>
+        <p class="panel-sub">Jawab 24 pertanyaan berikut dengan jujur berdasarkan kondisi riil kamu. Skala 1 = Sangat Tidak Setuju, 5 = Sangat Setuju.</p>
+      </div>
+
+      <div class="form-section" id="psycho-form">
+
+        <!-- DIMENSI 1: LOGIKA & PENALARAN (P1-P8) -->
+        <div class="dimension-header">
+          <div class="dimension-icon">L</div>
+          <div>
+            <div class="dimension-title">Dimensi Logika &amp; Penalaran</div>
+          </div>
+          <div class="dimension-sub">P1 - P8</div>
+        </div>
+
+        <div class="likert-question" id="q1">
+          <div class="likert-q-header"><span class="likert-q-num">P1</span><div class="likert-q-text">Saya senang membaca artikel sains, jurnal ilmiah, atau berita perkembangan teknologi terbaru.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 1"><label class="likert-radio-btn"><input type="radio" name="q1" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q1" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q1" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q1" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q1" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q2">
+          <div class="likert-q-header"><span class="likert-q-num">P2</span><div class="likert-q-text">Saya tertarik mempelajari cara komputer bekerja, logika pemrograman, atau pembuatan sistem digital.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 2"><label class="likert-radio-btn"><input type="radio" name="q2" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q2" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q2" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q2" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q2" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q3">
+          <div class="likert-q-header"><span class="likert-q-num">P3</span><div class="likert-q-text">Saya lebih percaya pada analisis data statistik dan bukti empiris dibanding opini atau intuisi subjektif.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 3"><label class="likert-radio-btn"><input type="radio" name="q3" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q3" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q3" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q3" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q3" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q4">
+          <div class="likert-q-header"><span class="likert-q-num">P4</span><div class="likert-q-text">Saya menikmati teka-teki logika, catur, pemrograman, atau penyelesaian soal matematika terapan.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 4"><label class="likert-radio-btn"><input type="radio" name="q4" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q4" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q4" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q4" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q4" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q5">
+          <div class="likert-q-header"><span class="likert-q-num">P5</span><div class="likert-q-text">Saya suka mencari akar penyebab dari suatu kerusakan alat elektronik atau kegagalan sistem teknis.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 5"><label class="likert-radio-btn"><input type="radio" name="q5" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q5" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q5" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q5" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q5" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q6">
+          <div class="likert-q-header"><span class="likert-q-num">P6</span><div class="likert-q-text">Saya tertarik mempelajari fenomena alam secara mendalam (seperti hukum fisika, reaksi kimia, atau pemodelan matematika).</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 6"><label class="likert-radio-btn"><input type="radio" name="q6" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q6" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q6" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q6" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q6" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q7">
+          <div class="likert-q-header"><span class="likert-q-num">P7</span><div class="likert-q-text">Saya senang mengelompokkan informasi atau menyortir data ke dalam kategori yang teratur untuk ditarik kesimpulannya.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 7"><label class="likert-radio-btn"><input type="radio" name="q7" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q7" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q7" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q7" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q7" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q8">
+          <div class="likert-q-header"><span class="likert-q-num">P8</span><div class="likert-q-text">Saya merasa puas ketika melakukan eksperimen ilmiah atau menguji hipotesis matematika sampai terbukti.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 8"><label class="likert-radio-btn"><input type="radio" name="q8" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q8" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q8" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q8" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q8" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <!-- DIMENSI 2: KREATIVITAS & INOVASI (P9-P16) -->
+        <div class="dimension-header">
+          <div class="dimension-icon violet">K</div>
+          <div>
+            <div class="dimension-title">Dimensi Kreativitas &amp; Inovasi</div>
+          </div>
+          <div class="dimension-sub">P9 - P16</div>
+        </div>
+
+        <div class="likert-question" id="q9">
+          <div class="likert-q-header"><span class="likert-q-num">P9</span><div class="likert-q-text">Saya menikmati proses membuat gambar, ilustrasi digital, mengedit video, atau mendesain tata letak visual.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 9"><label class="likert-radio-btn"><input type="radio" name="q9" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q9" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q9" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q9" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q9" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q10">
+          <div class="likert-q-header"><span class="likert-q-num">P10</span><div class="likert-q-text">Saya peka terhadap komposisi warna, harmoni bentuk, serta keindahan arsitektur di sekeliling saya.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 10"><label class="likert-radio-btn"><input type="radio" name="q10" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q10" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q10" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q10" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q10" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q11">
+          <div class="likert-q-header"><span class="likert-q-num">P11</span><div class="likert-q-text">Saya sering memikirkan cara-cara tidak konvensional (out-of-the-box) untuk menyelesaikan suatu persoalan.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 11"><label class="likert-radio-btn"><input type="radio" name="q11" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q11" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q11" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q11" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q11" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q12">
+          <div class="likert-q-header"><span class="likert-q-num">P12</span><div class="likert-q-text">Saya merasa tertekan jika harus terus-menerus melakukan pekerjaan administratif yang monoton dan kaku.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 12"><label class="likert-radio-btn"><input type="radio" name="q12" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q12" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q12" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q12" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q12" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q13">
+          <div class="likert-q-header"><span class="likert-q-num">P13</span><div class="likert-q-text">Saya sering berimajinasi menciptakan produk baru yang menarik secara visual dan berguna bagi orang lain.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 13"><label class="likert-radio-btn"><input type="radio" name="q13" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q13" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q13" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q13" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q13" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q14">
+          <div class="likert-q-header"><span class="likert-q-num">P14</span><div class="likert-q-text">Saya menikmati proses menulis kreatif (seperti esai, cerita, atau artikel opini) untuk mengekspresikan pikiran saya.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 14"><label class="likert-radio-btn"><input type="radio" name="q14" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q14" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q14" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q14" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q14" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q15">
+          <div class="likert-q-header"><span class="likert-q-num">P15</span><div class="likert-q-text">Saya senang menata estetika ruangan, membuat dekorasi, atau merancang antarmuka visual suatu situs web.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 15"><label class="likert-radio-btn"><input type="radio" name="q15" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q15" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q15" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q15" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q15" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q16">
+          <div class="likert-q-header"><span class="likert-q-num">P16</span><div class="likert-q-text">Saya lebih suka memikirkan ide konseptual baru dibanding hanya menjalankan instruksi teknis yang sudah ada.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 16"><label class="likert-radio-btn"><input type="radio" name="q16" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q16" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q16" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q16" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q16" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <!-- DIMENSI 3: KOMUNIKASI & KEPEMIMPINAN (P17-P24) -->
+        <div class="dimension-header">
+          <div class="dimension-icon" style="color:#a78bfa;background:var(--violet-dim);">V</div>
+          <div>
+            <div class="dimension-title">Dimensi Komunikasi &amp; Kepemimpinan</div>
+          </div>
+          <div class="dimension-sub">P17 - P24</div>
+        </div>
+
+        <div class="likert-question" id="q17">
+          <div class="likert-q-header"><span class="likert-q-num">P17</span><div class="likert-q-text">Saya merasa percaya diri dan nyaman saat harus mempresentasikan ide atau memimpin jalannya diskusi kelompok.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 17"><label class="likert-radio-btn"><input type="radio" name="q17" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q17" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q17" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q17" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q17" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q18">
+          <div class="likert-q-header"><span class="likert-q-num">P18</span><div class="likert-q-text">Saya senang berdiskusi argumentatif, bernegosiasi, atau meyakinkan orang lain tentang sudut pandang saya.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 18"><label class="likert-radio-btn"><input type="radio" name="q18" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q18" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q18" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q18" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q18" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q19">
+          <div class="likert-q-header"><span class="likert-q-num">P19</span><div class="likert-q-text">Saya tertarik mempelajari bagaimana bisnis beroperasi, strategi pemasaran, atau cara mengelola suatu usaha.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 19"><label class="likert-radio-btn"><input type="radio" name="q19" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q19" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q19" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q19" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q19" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q20">
+          <div class="likert-q-header"><span class="likert-q-num">P20</span><div class="likert-q-text">Saya suka mendengarkan keluh kesah orang lain dan membantu mereka mencari solusi atas masalah pribadinya.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 20"><label class="likert-radio-btn"><input type="radio" name="q20" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q20" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q20" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q20" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q20" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q21">
+          <div class="likert-q-header"><span class="likert-q-num">P21</span><div class="likert-q-text">Saya merasa berenergi saat bekerja sama dengan orang lain dan mengarahkan anggota tim menuju tujuan bersama.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 21"><label class="likert-radio-btn"><input type="radio" name="q21" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q21" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q21" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q21" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q21" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q22">
+          <div class="likert-q-header"><span class="likert-q-num">P22</span><div class="likert-q-text">Saya tertarik mengamati isu-isu sosial, politik, hukum, atau dinamika hubungan antarmasyarakat.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 22"><label class="likert-radio-btn"><input type="radio" name="q22" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q22" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q22" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q22" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q22" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q23">
+          <div class="likert-q-header"><span class="likert-q-num">P23</span><div class="likert-q-text">Saya merasa senang saat bisa mengajarkan suatu konsep atau melatih keterampilan baru kepada orang lain.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 23"><label class="likert-radio-btn"><input type="radio" name="q23" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q23" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q23" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q23" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q23" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <div class="likert-question" id="q24">
+          <div class="likert-q-header"><span class="likert-q-num">P24</span><div class="likert-q-text">Saya berani mengambil keputusan penting dalam situasi mendesak untuk menyelamatkan kepentingan kelompok.</div></div>
+          <div class="likert-options"><span class="likert-label-txt">Sangat Tidak Setuju</span><div class="likert-radios" role="radiogroup" aria-label="Pertanyaan 24"><label class="likert-radio-btn"><input type="radio" name="q24" value="1"/><span class="radio-circle">1</span></label><label class="likert-radio-btn"><input type="radio" name="q24" value="2"/><span class="radio-circle">2</span></label><label class="likert-radio-btn"><input type="radio" name="q24" value="3"/><span class="radio-circle">3</span></label><label class="likert-radio-btn"><input type="radio" name="q24" value="4"/><span class="radio-circle">4</span></label><label class="likert-radio-btn"><input type="radio" name="q24" value="5"/><span class="radio-circle">5</span></label></div><span class="likert-label-txt">Sangat Setuju</span></div>
+        </div>
+
+        <p id="psycho-error" style="color:#f87171; font-size:0.82rem; display:none; margin-top:16px;">Harap jawab semua 24 pertanyaan sebelum melanjutkan.</p>
+      </div>
+
+      <div class="panel-nav">
+        <button class="btn-back" id="btn-3-back" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Kembali
+        </button>
+        <button class="btn-next btn-compute" id="btn-3-next" type="button">
+          Lihat Hasil Rekomendasi
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ─── STEP 4: HASIL ─── -->
+    <div class="view-panel" id="panel-4" role="region" aria-labelledby="p4-title">
+      <div class="panel-header">
+        <div class="panel-badge">Hasil Rekomendasi</div>
+        <h1 class="panel-h1" id="p4-title">Rekomendasi Program Studi</h1>
+        <p class="panel-sub" id="p4-sub">Berdasarkan kalkulasi Profile Matching terhadap 57 program studi.</p>
+      </div>
+
+      <!-- PRINT HEADER (only shows on print) -->
+      <div class="print-header" id="print-header" style="display:none;">
+        <h2>SURAT KETERANGAN REKOMENDASI JURUSAN</h2>
+        <p>Sistem Pendukung Keputusan - Metode Profile Matching</p>
+        <p id="print-student-info"></p>
+        <hr/>
+      </div>
+
+      <!-- RINGKASAN PROFIL ASESMEN -->
+      <div class="profile-summary-section" id="profile-summary-section">
+        <h2 class="summary-section-title" style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; border-left: 3px solid var(--teal); padding-left: 10px;">Ringkasan Profil Kompetensi Anda</h2>
+        <div class="summary-card-grid">
+          <div class="summary-card" style="background: rgba(255,255,255,0.01); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); padding: 16px;">
+            <h3 class="summary-card-title">Aspek Akademik (Skala Rapor 1-5)</h3>
+            <div class="summary-stats-list" id="academic-summary-stats"></div>
+          </div>
+          <div class="summary-card" style="background: rgba(255,255,255,0.01); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); padding: 16px;">
+            <h3 class="summary-card-title" style="color: #a78bfa;">Aspek Bakat (Skala Psikometri 1-5)</h3>
+            <div class="summary-stats-list" id="bakat-summary-stats"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABS -->
+      <div class="result-tabs" role="tablist" aria-label="Tab audit trail">
+        <button class="result-tab active" id="tab-ranking" role="tab" aria-selected="true" aria-controls="content-ranking">Ranking</button>
+        <button class="result-tab" id="tab-gap" role="tab" aria-selected="false" aria-controls="content-gap">GAP Matrix</button>
+        <button class="result-tab" id="tab-weight" role="tab" aria-selected="false" aria-controls="content-weight">Bobot Nilai</button>
+        <button class="result-tab" id="tab-factor" role="tab" aria-selected="false" aria-controls="content-factor">CF &amp; SF</button>
+      </div>
+
+      <!-- TAB: RANKING -->
+      <div class="tab-content active" id="content-ranking" role="tabpanel" aria-labelledby="tab-ranking">
+        <div class="top-rankings" id="podium-container"></div>
+        <div class="reason-box" id="reason-box"></div>
+        
+        <!-- VISUAL COMPARISON CHART FOR TOP #1 -->
+        <div class="comparison-container" id="comparison-container"></div>
+
+        <div class="ranking-table-wrap">
+          <table class="ranking-table" id="ranking-table" aria-label="Tabel ranking seluruh program studi">
+            <thead>
+              <tr>
+                <th style="width:50px;">Rank</th>
+                <th>Program Studi</th>
+                <th>Jenjang</th>
+                <th>Rumpun</th>
+                <th>Total Nilai</th>
+                <th style="width:100px;">Skor</th>
+              </tr>
+            </thead>
+            <tbody id="ranking-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB: GAP MATRIX -->
+      <div class="tab-content" id="content-gap" role="tabpanel" aria-labelledby="tab-gap">
+        <div class="audit-legend-bar" style="margin-bottom: 16px;">
+          <span class="legend-item"><span class="legend-dot gap-zero">0</span> Sesuai Target</span>
+          <span class="legend-item"><span class="legend-dot gap-pos">+N</span> Melampaui Target</span>
+          <span class="legend-item"><span class="legend-dot gap-neg">-N</span> Kurang dari Target</span>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px; font-family:var(--font-mono);">
+          GAP = Nilai Siswa - Nilai Target Prodi. Ditampilkan untuk 10 prodi teratas.
+        </p>
+        <div class="ranking-table-wrap" style="overflow-x:auto;">
+          <table class="audit-table" id="gap-table" aria-label="Tabel GAP Matrix"></table>
+        </div>
+      </div>
+
+      <!-- TAB: BOBOT NILAI -->
+      <div class="tab-content" id="content-weight" role="tabpanel" aria-labelledby="tab-weight">
+        <div class="audit-legend-bar" style="margin-bottom: 16px;">
+          <span class="legend-item"><span class="legend-dot" style="background:rgba(255,255,255,0.03); border:1px solid var(--surface-border); width:32px; display:inline-flex; align-items:center; justify-content:center;">5.0</span> GAP 0</span>
+          <span class="legend-item"><span class="legend-dot" style="background:rgba(255,255,255,0.03); border:1px solid var(--surface-border); width:32px; display:inline-flex; align-items:center; justify-content:center;">4.5</span> GAP +1</span>
+          <span class="legend-item"><span class="legend-dot" style="background:rgba(255,255,255,0.03); border:1px solid var(--surface-border); width:32px; display:inline-flex; align-items:center; justify-content:center;">4.0</span> GAP -1</span>
+          <span class="legend-item"><span class="legend-dot" style="background:rgba(255,255,255,0.03); border:1px solid var(--surface-border); width:32px; display:inline-flex; align-items:center; justify-content:center;">3.5</span> GAP +2</span>
+          <span class="legend-item"><span class="legend-dot" style="background:rgba(255,255,255,0.03); border:1px solid var(--surface-border); width:32px; display:inline-flex; align-items:center; justify-content:center;">3.0</span> GAP -2</span>
+          <span class="legend-item"><span class="legend-dot" style="background:rgba(255,255,255,0.03); border:1px solid var(--surface-border); width:32px; display:inline-flex; align-items:center; justify-content:center;">2.5</span> GAP +3</span>
+          <span class="legend-item"><span class="legend-dot" style="background:rgba(255,255,255,0.03); border:1px solid var(--surface-border); width:32px; display:inline-flex; align-items:center; justify-content:center;">2.0</span> GAP -3</span>
+          <span class="legend-item"><span class="legend-dot" style="background:rgba(255,255,255,0.03); border:1px solid var(--surface-border); width:32px; display:inline-flex; align-items:center; justify-content:center;">1.5</span> GAP +4</span>
+          <span class="legend-item"><span class="legend-dot" style="background:rgba(255,255,255,0.03); border:1px solid var(--surface-border); width:32px; display:inline-flex; align-items:center; justify-content:center;">1.0</span> GAP -4</span>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px; font-family:var(--font-mono);">
+          Konversi GAP ke Bobot standar. GAP=0 menjadi 5.0, GAP=+1 menjadi 4.5, GAP=-1 menjadi 4.0, dst.
+        </p>
+        <div class="ranking-table-wrap" style="overflow-x:auto;">
+          <table class="audit-table" id="weight-table" aria-label="Tabel Bobot Nilai"></table>
+        </div>
+      </div>
+
+      <!-- TAB: CF & SF -->
+      <div class="tab-content" id="content-factor" role="tabpanel" aria-labelledby="tab-factor">
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px; font-family:var(--font-mono);">
+          NCF = rata-rata Core Factor. NSF = rata-rata Secondary Factor. N = (0.6 x NCF) + (0.4 x NSF).
+        </p>
+        <div class="ranking-table-wrap" style="overflow-x:auto;">
+          <table class="audit-table" id="factor-table" aria-label="Tabel Core Factor dan Secondary Factor"></table>
+        </div>
+      </div>
+
+      <!-- GLOSSARY OF CRITERIA -->
+      <div class="audit-glossary">
+        <div class="glossary-title">Keterangan Kode Kriteria</div>
+        <div class="glossary-grid">
+          <div class="glossary-item"><span class="glossary-code">C1</span> <strong>Matematika</strong> (Akademik)</div>
+          <div class="glossary-item"><span class="glossary-code">C2</span> <strong>Bahasa Inggris</strong> (Akademik)</div>
+          <div class="glossary-item"><span class="glossary-code">C3</span> <strong>Bahasa Indonesia</strong> (Akademik)</div>
+          <div class="glossary-item"><span class="glossary-code">C4</span> <strong>Penalaran Logis</strong> (Bakat)</div>
+          <div class="glossary-item"><span class="glossary-code">C5</span> <strong>Kreativitas &amp; Inovasi</strong> (Bakat)</div>
+          <div class="glossary-item"><span class="glossary-code">C6</span> <strong>Komunikasi Verbal</strong> (Bakat)</div>
+        </div>
+      </div>
+
+      <!-- EXPORT BAR -->
+      <div class="export-bar" id="export-bar">
+        <div class="export-bar-label">Ekspor hasil asesmen:</div>
+        <button class="btn-export" id="btn-download-pdf" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Unduh Rapor PDF
+        </button>
+        <button class="btn-back" id="btn-restart" type="button" style="margin-left:auto;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 013.51 15"/></svg>
+          Mulai Ulang
+        </button>
+      </div>
+    </div>
+
+    <!-- HIDDEN PDF TEMPLATE -->
+    <div id="pdf-template" style="display: none; background: #ffffff; color: #111827; padding: 40px; font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; width: 800px;">
+      <div style="border-bottom: 3px solid #2563eb; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end;">
+        <div>
+          <h1 style="margin: 0; font-size: 28px; color: #1e3a8a; font-weight: 800;">JURUSANKU</h1>
+          <p style="margin: 4px 0 0 0; color: #4b5563; font-size: 14px;">Sistem Pendukung Keputusan Profile Matching</p>
+        </div>
+        <div style="text-align: right; font-size: 12px; color: #6b7280;">
+          Dicetak pada: <span id="pdf-date"></span>
+        </div>
+      </div>
+
+      <h2 style="text-align: center; font-size: 22px; margin-bottom: 30px; color: #111827;">HASIL ASESMEN MINAT & BAKAT</h2>
+
+      <div style="background: #f3f4f6; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
+        <table style="width: 100%; font-size: 14px;">
+          <tr>
+            <td style="width: 30%; font-weight: 700; color: #4b5563; padding-bottom: 8px;">Nama Lengkap</td>
+            <td style="padding-bottom: 8px;">: <span id="pdf-student-name" style="font-weight: 600;"></span></td>
+          </tr>
+          <tr>
+            <td style="font-weight: 700; color: #4b5563; padding-bottom: 8px;">Asal Sekolah</td>
+            <td style="padding-bottom: 8px;">: <span id="pdf-student-school"></span></td>
+          </tr>
+          <tr>
+            <td style="font-weight: 700; color: #4b5563; padding-bottom: 8px;">Periode Sekolah</td>
+            <td style="padding-bottom: 8px;">: <span id="pdf-student-years"></span></td>
+          </tr>
+          <tr>
+            <td style="font-weight: 700; color: #4b5563;">Jalur Asal</td>
+            <td>: <span id="pdf-student-track"></span></td>
+          </tr>
+        </table>
+      </div>
+
+      <div style="margin-bottom: 30px;">
+        <h3 style="font-size: 16px; color: #2563eb; margin-bottom: 12px; border-left: 4px solid #2563eb; padding-left: 8px;">Rekomendasi Utama</h3>
+        <div style="border: 2px solid #2563eb; border-radius: 8px; padding: 24px; text-align: center;">
+          <div style="font-size: 14px; color: #6b7280; margin-bottom: 8px; text-transform: uppercase; font-weight: 700;">Program Studi Terpilih (Peringkat 1)</div>
+          <div id="pdf-top-prodi" style="font-size: 26px; font-weight: 800; color: #111827; margin-bottom: 8px;">-</div>
+          <div style="font-size: 14px; color: #4b5563;">Skor Kesesuaian: <span id="pdf-top-score" style="font-weight: 700; color: #2563eb;">0</span></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 30px;">
+        <h3 style="font-size: 16px; color: #2563eb; margin-bottom: 12px; border-left: 4px solid #2563eb; padding-left: 8px;">Analisis Konsultan AI</h3>
+        <p id="pdf-reasoning" style="font-size: 14px; line-height: 1.6; color: #374151; background: #e0f2fe; padding: 16px; border-radius: 8px; margin: 0;"></p>
+      </div>
+
+      <div>
+        <h3 style="font-size: 16px; color: #2563eb; margin-bottom: 12px; border-left: 4px solid #2563eb; padding-left: 8px;">Program Studi Alternatif</h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px; text-align: left;">
+          <thead>
+            <tr style="background: #f3f4f6; border-bottom: 2px solid #e5e7eb;">
+              <th style="padding: 12px 16px; color: #4b5563; font-weight: 700; width: 10%;">Rank</th>
+              <th style="padding: 12px 16px; color: #4b5563; font-weight: 700;">Program Studi</th>
+              <th style="padding: 12px 16px; color: #4b5563; font-weight: 700; width: 25%;">Skor</th>
+            </tr>
+          </thead>
+          <tbody id="pdf-alternatives">
+            <!-- Injected via JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 60px; font-size: 11px; color: #9ca3af; text-align: center; border-top: 1px solid #e5e7eb; padding-top: 20px;">
+        Dokumen ini digenerate secara otomatis oleh sistem SPK JurusanKu. Dokumen ini sah dan dapat digunakan sebagai referensi pendukung pemilihan program studi.
+      </div>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="js/profileMatching.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

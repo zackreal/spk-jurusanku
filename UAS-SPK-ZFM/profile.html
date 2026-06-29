@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil Saya - SPK JurusanKu</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    body {
+      background: var(--bg-base);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Navbar override for profile */
+    .profile-nav {
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--surface-border);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .profile-container {
+      max-width: 1000px;
+      margin: 48px auto;
+      padding: 0 24px;
+      width: 100%;
+      flex: 1;
+      animation: fadeUp 0.6s var(--ease-out-expo) forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .profile-header {
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .profile-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      letter-spacing: -0.03em;
+    }
+    .profile-subtitle {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 32px;
+    }
+
+    /* Left Sidebar: User Info */
+    .user-card {
+      background: var(--bg-card);
+      border: 1px solid var(--surface-border);
+      border-radius: 16px;
+      padding: 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+    .user-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 6px;
+      background: var(--accent-sapphire);
+    }
+    .avatar-placeholder {
+      width: 80px;
+      height: 80px;
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--accent-sapphire);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 auto 20px;
+      border: 2px solid rgba(37, 99, 235, 0.2);
+    }
+    .user-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+    .user-track {
+      display: inline-block;
+      padding: 6px 12px;
+      background: var(--bg-card-hover);
+      border: 1px solid var(--surface-border);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+    .stat-box {
+      background: var(--bg-base);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+      border: 1px solid var(--surface-border);
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+    }
+
+    .btn-logout {
+      width: 100%;
+      padding: 14px;
+      background: transparent;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-logout:hover {
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    /* Right Main: History */
+    .history-section {
+      background: var(--bg-card);
+      border: 1px solid var(--surface-border);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: var(--shadow-card);
+    }
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-title svg {
+      color: var(--accent-sapphire);
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .history-card {
+      background: var(--bg-base);
+      border: 1px solid var(--surface-border);
+      border-radius: 12px;
+      padding: 20px;
+      transition: all 0.2s var(--ease-out-expo);
+    }
+    .history-card:hover {
+      border-color: var(--surface-border-hover);
+      transform: translateX(4px);
+    }
+    .hc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      border-bottom: 1px dashed var(--surface-border);
+      padding-bottom: 12px;
+    }
+    .hc-date {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hc-badge {
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--accent-sapphire);
+      border-radius: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .hc-prodi-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .hc-prodi-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .hc-prodi-rank {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hc-rank-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--surface-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+    .hc-prodi-item:nth-child(1) .hc-rank-num {
+      background: rgba(234, 179, 8, 0.15); /* Gold */
+      color: #ca8a04;
+      border-color: rgba(234, 179, 8, 0.3);
+    }
+    .hc-prodi-name {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+    }
+    .hc-prodi-score {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--text-muted);
+    }
+    .empty-state svg {
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .profile-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="profile-nav">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-mark">
+        <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+          <path d="M14 2L26 8V20L14 26L2 20V8L14 2Z" stroke="var(--text-primary)" stroke-width="1.5" fill="none"/>
+          <circle cx="14" cy="14" r="4" fill="var(--accent-sapphire)"/>
+        </svg>
+      </span>
+      <span class="logo-text" style="font-size: 1.2rem;">JurusanKu<span class="logo-spk">SPK</span></span>
+    </a>
+    <div style="display:flex; gap:16px; align-items:center;">
+      <a href="index.html" class="btn-ghost" style="padding: 8px 16px;">Beranda</a>
+      <a href="app.html" class="btn-primary" style="padding: 8px 16px;">Mulai Asesmen</a>
+    </div>
+  </nav>
+
+  <div class="profile-container">
+    <header class="profile-header">
+      <div>
+        <h1 class="profile-title">Dashboard Profil</h1>
+        <p class="profile-subtitle">Pantau perkembangan dan histori asesmen penentuan jurusanmu.</p>
+      </div>
+    </header>
+
+    <div class="dashboard-grid">
+      
+      <!-- Left Column -->
+      <aside>
+        <div class="user-card">
+          <div class="avatar-placeholder" id="prof-avatar">U</div>
+          <h2 class="user-name" id="prof-name">Memuat...</h2>
+          <div class="user-track" id="prof-track">Jalur Sekolah</div>
+          
+          <div class="stat-box">
+            <div class="stat-label">Total Asesmen Selesai</div>
+            <div class="stat-value" id="prof-count">0</div>
+          </div>
+          
+          <button class="btn-logout" onclick="handleProfileLogout()">Keluar Akun</button>
+        </div>
+      </aside>
+
+      <!-- Right Column -->
+      <main>
+        <div class="history-section">
+          <h3 class="section-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            Histori Rekomendasi Jurusan
+          </h3>
+          
+          <div id="history-list" class="history-list">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Setup Theme
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      }
+
+      // Check Auth
+      const user = typeof auth !== 'undefined' ? auth.getCurrentUser() : null;
+      if (!user) {
+        window.location.href = 'auth.html';
+        return;
+      }
+
+      // Populate User Info
+      document.getElementById('prof-name').textContent = user.fullName;
+      document.getElementById('prof-avatar').textContent = user.fullName.charAt(0).toUpperCase();
+      
+      const trackMap = {
+        'sma_ipa': 'SMA IPA', 'sma_ips': 'SMA IPS',
+        'smk_teknik': 'SMK Teknik', 'smk_bisnis': 'SMK Bisnis'
+      };
+      document.getElementById('prof-track').textContent = trackMap[user.track] || user.track;
+      
+      const history = user.history || [];
+      document.getElementById('prof-count').textContent = history.length;
+
+      // Render History
+      const historyContainer = document.getElementById('history-list');
+      if (history.length === 0) {
+        historyContainer.innerHTML = `
+          <div class="empty-state">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            <p>Belum ada histori asesmen.<br>Silakan lakukan asesmen pertama Anda.</p>
+          </div>
+        `;
+        return;
+      }
+
+      // Reverse history so newest is on top
+      const reversedHistory = [...history].reverse();
+      
+      historyContainer.innerHTML = reversedHistory.map((item, index) => {
+        const dateObj = new Date(item.timestamp);
+        const dateStr = dateObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+        const timeStr = dateObj.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+        
+        const topProdiHtml = (item.topProdi || []).map((prodi, idx) => `
+          <div class="hc-prodi-item">
+            <div class="hc-prodi-rank">
+              <span class="hc-rank-num">${idx + 1}</span>
+              <span class="hc-prodi-name">${prodi.name}</span>
+            </div>
+            <span class="hc-prodi-score">${prodi.score}</span>
+          </div>
+        `).join('');
+
+        return `
+          <div class="history-card" style="animation: fadeUp ${0.4 + (index * 0.1)}s var(--ease-out-expo) forwards; opacity:0;">
+            <div class="hc-header">
+              <div class="hc-date">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                ${dateStr} • ${timeStr}
+              </div>
+              <span class="hc-badge">Test #${history.length - index}</span>
+            </div>
+            <div class="hc-prodi-list">
+              ${topProdiHtml}
+            </div>
+          </div>
+        `;
+      }).join('');
+    });
+
+    function handleProfileLogout() {
+      if (typeof auth !== 'undefined') {
+        auth.logout();
+        window.location.href = 'index.html';
+      }
+    }
+  </script>
+</body>
+</html>
